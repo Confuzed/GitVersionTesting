@@ -1,0 +1,28 @@
+next-version: 2.0.0
+assembly-versioning-scheme: MajorMinorPatch
+tag-prefix: 'release/'
+branches:
+  master:
+    is-source-branch-for: ['release', 'hotfix']
+  pull-request:
+    tag: pull
+    increment: inherit
+    mode: ContinuousDeployment
+    source-branches: ['release', 'feature', 'hotfix']
+  release:
+    regex: ^releases\/
+    tag: pre
+    mode: ContinuousDeployment
+    increment: Minor
+    is-source-branch-for: ['feature', 'pull-request']
+    source-branches: ['master']
+    is-release-branch: true
+  feature:
+    regex: ^features?[/-]
+    tag: pre.{BranchName}
+    increment: minor
+    source-branches: ['release', 'pull-request']
+  hotfix:
+    regex: ^hotfix[/-]
+    tag: hotfix
+    source-branches: ['master', 'pull-request']
